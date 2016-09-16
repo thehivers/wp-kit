@@ -1,0 +1,14 @@
+{
+  "name": "ohlabs/wp-kit",
+  "description": "Common WordPress classes and traits.",
+  "licence": "MIT",
+  "require": {
+    "php": ">=5.4",
+    "ext-curl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "OhLabs\\WPKit\\": "src"
+    }
+  }
+}
