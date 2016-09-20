@@ -4,6 +4,8 @@ namespace OhLabs\WPKit;
 
 class Plugin
 {
+  use \OhLabs\WPKit\Traits\Singleton;
+  
   /**
    * Get plugin directory
    * @since 1.0.0
@@ -11,8 +13,8 @@ class Plugin
   public static function dir ($path='')
   {
     static $base; if (!$base)
-    { $class = get_called_class(); $base = WP_PLUGIN_DIR . '/' . $class::NAME; }
-    return $base . $path;
+    { $base = WP_PLUGIN_DIR . '/' . static::NAME; }
+    return empty($path) ? $base : "$base/$path";
   }
   
   /**
@@ -22,8 +24,8 @@ class Plugin
   public static function url ($path='')
   {
     static $base; if (!$base)
-    { $class = get_called_class(); $base = WP_PLUGIN_URL . '/' . $class::NAME; }
-    return $base . $path;
+    { $base = WP_PLUGIN_URL . '/' . static::NAME; }
+    return empty($path) ? $base : "$base/$path";
   }
   
   /**
