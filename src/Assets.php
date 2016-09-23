@@ -56,6 +56,19 @@ class Assets
   }
   
   /**
+   * Register theme stylesheet
+   */
+  public function regThemeStyle ($id,$path,$media=null)
+  {
+    wp_register_style($id,
+    !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
+    get_template_directory_uri("{$this->base}/{$path}") : $path,
+    array_slice(func_get_args(),3),
+    $this->plugin::VERSION,
+    is_string($media) && !empty($media) ? $media : 'all');
+  }
+  
+  /**
    * Enqueue script
    */
   public function useScript ($id)
@@ -70,6 +83,18 @@ class Assets
   {
     wp_register_script($id,
     $this->plugin::url("{$this->base}/{$path}"),
+    array_slice(func_get_args(),3),
+    $this->plugin::VERSION,
+    $footer);
+  }
+  
+  /**
+   * Register javascript
+   */
+  public function regThemeScript ($id,$path,$footer=true)
+  {
+    wp_register_script($id,
+    get_template_directory_uri("{$this->base}/{$path}"),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
