@@ -69,6 +69,19 @@ class Assets
   }
   
   /**
+   * Register chils theme stylesheet
+   */
+  public function regChildThemeStyle ($id,$path,$media=null)
+  {
+    wp_register_style($id,
+    !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
+    (get_stylesheet_directory_uri() . "/{$this->base}/{$path}") : $path,
+    array_slice(func_get_args(),3),
+    $this->plugin::VERSION,
+    is_string($media) && !empty($media) ? $media : 'all');
+  }
+  
+  /**
    * Enqueue script
    */
   public function useScript ($id)
@@ -90,13 +103,26 @@ class Assets
   }
   
   /**
-   * Register javascript
+   * Register theme javascript
    */
   public function regThemeScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
     !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
     (get_template_directory_uri() . "/{$this->base}/{$path}") : $path,
+    array_slice(func_get_args(),3),
+    $this->plugin::VERSION,
+    $footer);
+  }
+  
+  /**
+   * Register child theme javascript
+   */
+  public function regChildThemeScript ($id,$path,$footer=true)
+  {
+    wp_register_script($id,
+    !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
+    (get_stylesheet_directory_uri() . "/{$this->base}/{$path}") : $path,
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
