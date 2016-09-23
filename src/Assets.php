@@ -62,7 +62,7 @@ class Assets
   {
     wp_register_style($id,
     !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
-    get_template_directory_uri("{$this->base}/{$path}") : $path,
+    (get_template_directory_uri() . "/{$this->base}/{$path}") : $path,
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
@@ -82,7 +82,8 @@ class Assets
   public function regScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
-    $this->plugin::url("{$this->base}/{$path}"),
+    !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
+    $this->plugin::url("{$this->base}/{$path}") : $path,
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
@@ -94,7 +95,8 @@ class Assets
   public function regThemeScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
-    get_template_directory_uri("{$this->base}/{$path}"),
+    !preg_match('/(^\/\/)|(^https?\:\/\/)/',$path) ?
+    (get_template_directory_uri() . "/{$this->base}/{$path}") : $path,
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
