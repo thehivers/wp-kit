@@ -53,6 +53,7 @@ class Assets
   public function useStyle ($id)
   {
     wp_enqueue_style($id);
+    return $this;
   }
 
   /**
@@ -65,6 +66,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
+    return $this;
   }
 
   /**
@@ -73,6 +75,7 @@ class Assets
   public function regPluginStyle ($id,$path,$media=null)
   {
     $this->regStyle($id,$path,$media);
+    return $this;
   }
 
   /**
@@ -85,6 +88,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
+    return $this;
   }
 
   /**
@@ -97,6 +101,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
+    return $this;
   }
 
   /**
@@ -105,6 +110,7 @@ class Assets
   public function useScript ($id)
   {
     wp_enqueue_script($id);
+    return $this;
   }
 
   /**
@@ -117,6 +123,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
+    return $this;
   }
 
   /**
@@ -125,6 +132,7 @@ class Assets
   public function regPluginScript ($id,$path,$footer=true)
   {
     $this->regScript($id,$path,$footer);
+    return $this;
   }
 
   /**
@@ -137,6 +145,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
+    return $this;
   }
 
   /**
@@ -149,6 +158,7 @@ class Assets
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
+    return $this;
   }
 
   /**
@@ -157,5 +167,6 @@ class Assets
   public function inject ($id,$name,$data)
   {
     wp_localize_script($id,$name,$data);
+    return $this;
   }
 }
