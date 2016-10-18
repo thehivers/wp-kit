@@ -84,7 +84,7 @@ class Assets
   public function regThemeStyle ($id,$path,$media=null)
   {
     wp_register_style($id,
-    $this->regAssetPath($path,true),
+    $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
@@ -97,7 +97,7 @@ class Assets
   public function regChildThemeStyle ($id,$path,$media=null)
   {
     wp_register_style($id,
-    $this->regAssetPath($path,true,true),
+    $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
@@ -119,7 +119,7 @@ class Assets
   public function regScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
-    $this->regAssetPath($path),
+    $this->getAssetPath($path),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
@@ -141,7 +141,7 @@ class Assets
   public function regThemeScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
-    $this->regAssetPath($path,true),
+    $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
@@ -154,7 +154,7 @@ class Assets
   public function regChildThemeScript ($id,$path,$footer=true)
   {
     wp_register_script($id,
-    $this->regAssetPath($path,true,true),
+    $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
     $this->plugin::VERSION,
     $footer);
