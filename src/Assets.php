@@ -42,9 +42,9 @@ class Assets
     if (preg_match('/(^\/\/)|(^https?\:\/\/)/',$path))
     return  $path;
     return !$theme
-    ? $this->plugin::url("/{$this->base}/{$path}")
+    ? $this->plugin::url("/{$path}")
     : ($child ? get_template_directory_uri() : get_stylesheet_directory_uri())
-    . "/{$this->base}/{$path}";
+    . "/{$path}";
   }
 
   /**
