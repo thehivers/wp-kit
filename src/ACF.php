@@ -27,9 +27,11 @@ class ACF
   /**
    * Register acf group
    */
-  public function addGroup ($conf,$location)
+  public function addGroup ($conf,$location,$keygen,$name='')
   {
-    $key  = $this->key('group_');
+    $key = isset($keygen)
+    ? $keygen->generate($name,'group')
+    : $this->key('group_');
     $args = array_merge(array(
       'key' => $key,
       'location' => $location
@@ -41,9 +43,11 @@ class ACF
   /**
    * Register acf field
    */
-  public function addField ($parent,$label,$name,$type,$required=0,$conf=array())
+  public function addField ($parent,$label,$name,$type,$required=0,$conf=array(),$keygen)
   {
-    $key  = $this->key('field_');
+    $key = isset($keygen)
+    ? $keygen->generate($name,'field')
+    : $this->key('field_');
     $args = array_merge(array(
       'key' => $key,
       'parent' => $parent,

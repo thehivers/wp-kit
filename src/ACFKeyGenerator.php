@@ -17,8 +17,8 @@ class ACFKeyGenerator
   /**
    * Generate new id
    */
-  public function generate ($name)
+  public function generate ($suffix,$prefix='')
   {
-    return $base . '_' . $name;
+    return $prefix . '_' . $base . '_' . $suffix;
   }
 }
