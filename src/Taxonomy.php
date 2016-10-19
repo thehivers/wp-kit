@@ -23,8 +23,13 @@ class Taxonomy
     if (!isset($this->name) || !is_string($this->name) || empty($this->name))
     throw new \Exception ('Taxonomy: Name not set.');
 
-    $this->id     = self::toID($this->name);
-    $this->plural = self::toPlural($this->name);
+    if (!isset($this->id)) {
+      $this->id = self::toID($this->name);
+    }
+    
+    if (!isset($this->plural)) {
+      $this->plural = self::toPlural($this->name);
+    }
 
     $this->labels = array_merge(array(
       'name'                  => _x($this->plural,'taxonomy general name'),
