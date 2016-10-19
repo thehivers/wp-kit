@@ -2,7 +2,7 @@
 
 namespace OhLabs\WPKit;
 
-class PostType
+class Taxonomy
 {
   use \OhLabs\WPKit\Traits\Singleton;
   use \OhLabs\WPKit\Traits\ObjectProps;
@@ -20,14 +20,14 @@ class PostType
   protected function __construct ()
   {
     if (!isset($this->name) || !is_string($this->name) || empty($this->name))
-    throw new \Exception ('PostType: Name not set.');
+    throw new \Exception ('Taxonomy: Name not set.');
 
     $this->id     = self::toID($this->name);
     $this->plural = self::toPlural($this->name);
 
     $this->labels = array_merge(array(
-      'name'                  => _x($this->plural,'post type general name'),
-      'singular_name'         => _x($this->name,'post type singular name'),
+      'name'                  => _x($this->plural,'taxonomy general name'),
+      'singular_name'         => _x($this->name,'taxonomy singular name'),
       'add_new'               => _x('Add New',strtolower($this->name)),
       'add_new_item'          => __('Add New '.$this->name),
       'edit_item'             => __('Edit '.$this->name),
@@ -51,15 +51,14 @@ class PostType
       '_builtin'          => false
     ),$this->arguments);
 
-    add_action ('init',array($this,'_register_post_type'));
+    add_action ('init',array($this,'_register_taxonomy'));
   }
 
   /**
-   * Register post type with wordpress
+   * Register taxonomy with wordpress
    * @private
    */
-  public function _register_post_type ()
+  public function _register_taxonomy ()
   {
     register_post_type($this->id,$this->arguments);
   }
-}
