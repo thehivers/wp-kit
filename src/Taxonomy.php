@@ -62,3 +62,4 @@ class Taxonomy
   {
     register_post_type($this->id,$this->arguments);
   }
+}
