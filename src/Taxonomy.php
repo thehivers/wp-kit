@@ -8,6 +8,7 @@ class Taxonomy
   use \OhLabs\WPKit\Traits\ObjectProps;
 
   protected $id;
+  protected $for;
   protected $name;
   protected $plural;
 
@@ -60,6 +61,6 @@ class Taxonomy
    */
   public function _register_taxonomy ()
   {
-    register_post_type($this->id,$this->arguments);
+    register_taxonomy($this->id,$this->for,$this->arguments);
   }
 }
