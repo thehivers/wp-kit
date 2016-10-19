@@ -19,6 +19,6 @@ class ACFKeyGenerator
    */
   public function generate ($suffix,$prefix='')
   {
-    return $prefix . '_' . $base . '_' . $suffix;
+    return $prefix . '_' . $this->base . '_' . $suffix;
   }
 }
