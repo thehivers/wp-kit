@@ -43,7 +43,7 @@ class Assets
     return  $path;
     return !$theme
     ? $this->plugin::url("/{$path}")
-    : ($child ? get_template_directory_uri() : get_stylesheet_directory_uri())
+    : ($child ? get_stylesheet_directory_uri() : get_template_directory_uri())
     . "/{$path}";
   }
 
