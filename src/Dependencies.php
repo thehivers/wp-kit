@@ -10,7 +10,7 @@ class Dependencies
   /** @var string The class name of the main plugin that requires dependencies */
   protected $plugin;
   /** @var array  Plugin paths to look for with their download locations */
-  protected $plugins = array();
+  protected $dependencies = array();
 
   /**
    * The Constructor
@@ -86,13 +86,13 @@ class Dependencies
    */
   public function getMissing ()
   {
-    $registered = sizeof($this->plugins);
+    $registered = sizeof($this->dependencies);
     $missing = array();
     $active = 0;
     if (empty($registered)) return $missing;
     include_once (ABSPATH . 'wp-admin/includes/plugin.php');
     if (function_exists('is_plugin_active')) {
-      foreach ($this->plugins as $path => $src) {
+      foreach ($this->dependencies as $path => $src) {
         if (is_plugin_active($path)) {
           $active++;
         } else {
