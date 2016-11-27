@@ -6,41 +6,33 @@ class Dependencies
 {
   use \OhLabs\WPKit\Traits\Singleton;
   use \OhLabs\WPKit\Traits\Debug;
+  use \OhLabs\WPKit\Traits\PluginActions;
 
   /** @var string The class name of the main plugin that requires dependencies */
   protected $plugin;
   /** @var array  Plugin paths to look for with their download locations */
   protected $dependencies = array();
+  /** @var string Admin post action used for plugin action link */
+  protected $adminPostAction = 'wpkit-install-dependencies';
+  /** @var array  Cache missing dependencies */
+  protected $missing;
 
   /**
    * The Constructor
    */
   protected function __construct ()
   {
-    add_filter (
-      'plugin_action_links_' . $this->plugin::NAME . '/' . $this->plugin::ENTRY,
-      array($this,'_install_deps_plugin_action')
-    );
-    add_action (
-      'admin_post_wpkit-install-dependencies',
-      array($this,'_install_missing_dependencies')
-    );
+    $this->usePluginActions();
   }
 
   /**
    * Insert a plugin action link if there are unmet dependencies
    * @private
    */
-  public function _install_deps_plugin_action ($links)
+  public function pluginActionLinks ($links)
   {
-    $met = $this->areMet();
-    if (!$met) {
-      $action  = '<a href="';
-      $action .= admin_url('admin-post.php?action=wpkit-install-dependencies');
-      $action .= '" title="';
-      $action .= 'Install missing dependencies and activate deactivated ones.';
-      $action .= '">Setup Dependencies</a>';
-      $links[] = $action;
+    if (!$this->areMet()) {
+      $links[] = $this->renderPluginActionLink('Setup Dependencies');
     }
     return $links;
   }
@@ -49,18 +41,18 @@ class Dependencies
    * Install and activate missing dependencies
    * @private
    */
-  public function _install_missing_dependencies ()
+  public function pluginActionCallback ()
   {
     if (!current_user_can('manage_options')) {
-      die(wp_redirect(admin_url('plugins.php')));
+      $this->pluginActionCallbackEnd();
     }
     $missing = $this->getMissing();
     if (empty($missing)) {
-      die(wp_redirect(admin_url('plugins.php')));
+      $this->pluginActionCallbackEnd();
     }
     @include_once (ABSPATH . 'wp-admin/includes/plugin.php');
     if (!function_exists('activate_plugin')) {
-      die(wp_redirect(admin_url('plugins.php')));
+      $this->pluginActionCallbackEnd();
     }
     foreach ($missing as $path => $src) {
       if (!@file_exists(WP_PLUGIN_DIR . '/' . $path)) {
@@ -78,7 +70,7 @@ class Dependencies
       }
       activate_plugin ($path);
     }
-    die (wp_redirect(admin_url('plugins.php')));
+    $this->pluginActionCallbackEnd();
   }
 
   /**
@@ -86,21 +78,26 @@ class Dependencies
    */
   public function getMissing ()
   {
+    if (isset($this->missing)) {
+      return $this->missing;
+    }
+    $this->missing = array();
     $registered = sizeof($this->dependencies);
-    $missing = array();
     $active = 0;
-    if (empty($registered)) return $missing;
+    if (empty($registered)) {
+      return $this->missing;
+    }
     include_once (ABSPATH . 'wp-admin/includes/plugin.php');
     if (function_exists('is_plugin_active')) {
       foreach ($this->dependencies as $path => $src) {
         if (is_plugin_active($path)) {
           $active++;
         } else {
-          $missing[$path] = $src;
+          $this->missing[$path] = $src;
         }
       }
     }
-    return $missing;
+    return $this->missing;
   }
 
   /**
