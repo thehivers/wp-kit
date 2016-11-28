@@ -4,8 +4,9 @@ namespace OhLabs\WPKit;
 
 class Plugin
 {
+  use \OhLabs\WPKit\Traits\Debug;
   use \OhLabs\WPKit\Traits\Singleton;
-  
+
   /**
    * Get plugin directory
    * @since 1.0.0
@@ -16,7 +17,7 @@ class Plugin
     { $base = WP_PLUGIN_DIR . '/' . static::NAME; }
     return empty($path) ? $base : "$base/$path";
   }
-  
+
   /**
    * Get plugin url
    * @since 1.0.0
@@ -27,7 +28,7 @@ class Plugin
     { $base = WP_PLUGIN_URL . '/' . static::NAME; }
     return empty($path) ? $base : "$base/$path";
   }
-  
+
   /**
    * Activation function
    * @private
@@ -36,7 +37,7 @@ class Plugin
   {
     // Must be overriden
   }
-  
+
   /**
    * The Constructor
    */
