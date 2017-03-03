@@ -27,12 +27,22 @@ class Assets
     static::instance()->admin();
   }
 
+  /**
+   * Login
+   */
+  public static function doLogin ()
+  {
+    static::instance()->login();
+  }
+
   /** Executed in front end */
   public function front  () {}
   /** Executed in admin end */
   public function admin  () {}
   /** Executed in both ends */
   public function common () {}
+  /** Executed on login screen */
+  public function login () {}
 
   /**
    * Get asset path
