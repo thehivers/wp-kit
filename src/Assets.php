@@ -49,10 +49,11 @@ class Assets
    */
   public function getAssetPath ($path,$theme=false,$child=false)
   {
+    $plugin = $this->plugin;
     if (preg_match('/(^\/\/)|(^https?\:\/\/)/',$path))
     return  $path;
     return !$theme
-    ? $this->plugin::url("/{$path}")
+    ? $plugin::url("/{$path}")
     : ($child ? get_stylesheet_directory_uri() : get_template_directory_uri())
     . "/{$path}";
   }
@@ -71,10 +72,11 @@ class Assets
    */
   public function regStyle ($id,$path,$media=null)
   {
+    $plugin = $this->plugin;
     wp_register_style($id,
     $this->getAssetPath($path),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -93,10 +95,11 @@ class Assets
    */
   public function regThemeStyle ($id,$path,$media=null)
   {
+    $plugin = $this->plugin;
     wp_register_style($id,
     $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -106,10 +109,11 @@ class Assets
    */
   public function regChildThemeStyle ($id,$path,$media=null)
   {
+    $plugin = $this->plugin;
     wp_register_style($id,
     $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -128,10 +132,11 @@ class Assets
    */
   public function regScript ($id,$path,$footer=true)
   {
+    $plugin = $this->plugin;
     wp_register_script($id,
     $this->getAssetPath($path),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     $footer);
     return $this;
   }
@@ -150,10 +155,11 @@ class Assets
    */
   public function regThemeScript ($id,$path,$footer=true)
   {
+    $plugin = $this->plugin;
     wp_register_script($id,
     $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     $footer);
     return $this;
   }
@@ -163,10 +169,11 @@ class Assets
    */
   public function regChildThemeScript ($id,$path,$footer=true)
   {
+    $plugin = $this->plugin;
     wp_register_script($id,
     $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $plugin::VERSION,
     $footer);
     return $this;
   }
