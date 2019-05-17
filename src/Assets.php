@@ -9,6 +9,9 @@ class Assets
   protected $plugin;
   protected $base = 'public';
 
+  protected $buildHash = '';
+  protected $buildHashPath = 'public/build.hash';
+
   /**
    * Front
    */
@@ -45,6 +48,19 @@ class Assets
   public function login () {}
 
   /**
+   * Get buld hash
+   */
+  public function getBuildHash() {
+    if (!empty($this->buildHash)) {
+      return $this->buildHash;
+    }
+    $this->buildHash = @file_get_contents(
+      $this->plugin::url("${$this->buildHashPath}")
+    );
+    return $this->buildHash;
+  }
+
+  /**
    * Get asset path
    */
   public function getAssetPath ($path,$theme=false,$child=false)
@@ -74,7 +90,7 @@ class Assets
     wp_register_style($id,
     $this->getAssetPath($path),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -96,7 +112,7 @@ class Assets
     wp_register_style($id,
     $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -109,7 +125,7 @@ class Assets
     wp_register_style($id,
     $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     is_string($media) && !empty($media) ? $media : 'all');
     return $this;
   }
@@ -131,7 +147,7 @@ class Assets
     wp_register_script($id,
     $this->getAssetPath($path),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     $footer);
     return $this;
   }
@@ -153,7 +169,7 @@ class Assets
     wp_register_script($id,
     $this->getAssetPath($path,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     $footer);
     return $this;
   }
@@ -166,7 +182,7 @@ class Assets
     wp_register_script($id,
     $this->getAssetPath($path,true,true),
     array_slice(func_get_args(),3),
-    $this->plugin::VERSION,
+    $this->getBuildHash(),
     $footer);
     return $this;
   }
